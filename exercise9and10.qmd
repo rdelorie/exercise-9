@@ -1,5 +1,33 @@
 ---
-title: "exercise9and10"
-format: html
+title: "exercise 9 and 10"
+author: Rachel Delorie
+output-dir: docs
+
+format:
+  html:
+    self-contained: true
 ---
+
+```{r}
+library(tidyverse)
+library(dplyr)
+library(visdat)
+```
+
+```{r}
+#data cleaning, code from lec 9 notes
+aq_cleaned <- airquality %>% 
+  distinct() %>% 
+  drop_na() #deletes missing values. skipped imputation
+  vis_dat(aq_cleaned)
+```
+
+```{r}
+model <- lm(Temp ~ Ozone * Solar.R, data = aq_cleaned)
+summary(model)
+
+# number 4 answer: Yes, based on the coefficients and information provided from this model I would say this seems like a valid model.
+
+# number 5 answer: The modified r squared balue is 0.4963. This is adjusted for the number of predictors in my model. This means that my model explains 49.63% of the variation in the dependent variable. 
+```
 
