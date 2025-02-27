@@ -12,6 +12,8 @@ format:
 library(tidyverse)
 library(dplyr)
 library(visdat)
+library(broom)
+library(ggplot2)
 ```
 
 ```{r}
@@ -29,5 +31,19 @@ summary(model)
 # number 4 answer: Yes, based on the coefficients and information provided from this model I would say this seems like a valid model.
 
 # number 5 answer: The modified r squared balue is 0.4963. This is adjusted for the number of predictors in my model. This means that my model explains 49.63% of the variation in the dependent variable. 
+```
+
+```{r}
+a <- augment(model) # step 6
+```
+
+```{r}
+merged_df <- full_join(a, aq_cleaned, by = "Temp")
+ggplot(merged_df, aes(x = Ozone.x, y = Ozone.y)) +
+  geom_point() +
+  labs(title = "Actual vs. Predicted Ozone", x = "augmented", y = "actual") +
+  geom_abline(intercept = 0, slope = 1, color = "red")
+paste("Correlation:", round(cor(a$Ozone, a$.fitted),2))
+
 ```
 
